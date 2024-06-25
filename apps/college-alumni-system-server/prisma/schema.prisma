@@ -1,0 +1,59 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Job {
+  applicationDeadline DateTime?
+  createdAt           DateTime  @default(now())
+  description         String?
+  id                  String    @id @default(auto()) @map("_id") @db.ObjectId
+  postDate            DateTime?
+  postedBy            String?
+  title               String?
+  updatedAt           DateTime  @updatedAt
+}
+
+model Activity {
+  activityType EnumActivityActivityType?
+  createdAt    DateTime                  @default(now())
+  createdBy    String?
+  description  String?
+  id           String                    @id @default(auto()) @map("_id") @db.ObjectId
+  updatedAt    DateTime                  @updatedAt
+}
+
+model Chat {
+  createdAt      DateTime  @default(now())
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  messageContent String?
+  receiver       String?
+  sender         String?
+  sentAt         DateTime?
+  updatedAt      DateTime  @updatedAt
+}
+
+model User {
+  createdAt DateTime          @default(now())
+  email     String?           @unique
+  firstName String?
+  id        String            @id @default(auto()) @map("_id") @db.ObjectId
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime          @updatedAt
+  username  String            @unique
+  userType  EnumUserUserType?
+}
+
+enum EnumActivityActivityType {
+  Option1
+}
+
+enum EnumUserUserType {
+  Option1
+}
